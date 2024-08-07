@@ -21,7 +21,7 @@ function FallingBox() {
   const [ref] = useBox(() => ({
     mass: 5,
     position: [Math.random() * 2 - 1, 5, Math.random() * 2 - 1], 
-    args:[0.5,0.5,0.5] //if i don't add this, there's a gap visible because of the collision box
+    args:[0.5,0.5,0.5] //if i don't add this, there's a gap visible because of the collisiony
   }));
 
   return (
@@ -33,6 +33,13 @@ function FallingBox() {
 }
 
 function Game() {
+  const fallingBoxes = React.useRef([]);
+
+  useEffect(() => {
+    for (let i = 0; i < 10; i++) {
+      fallingBoxes.current.push(<FallingBox key={i} />);
+    }
+  }, []);
 
   return (
     <Canvas style={{ height: '100vh', width: '100vw', background: 'lightgray' }} shadows>
@@ -41,7 +48,7 @@ function Game() {
       <Physics>
         <OrbitControls />
         <Plane />
-        <FallingBox />
+        {fallingBoxes.current}
       </Physics>
     </Canvas>
   );
